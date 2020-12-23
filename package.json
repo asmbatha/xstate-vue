@@ -1,0 +1,19 @@
+{
+    "name": "xstate-vue3",
+    "version": "1.0.0",
+    "description": "Simple xstate and vue3 integration",
+    "main": "index.js",
+    "scripts": {
+        "test": "echo \"Error: no test specified\" && exit 1"
+    },
+    "keywords": [
+        "xstate",
+        "vue3"
+    ],
+    "author": "Ayanda Mbatha <asmbatha.13@gmail.com>",
+    "license": "ISC",
+    "peerDependencies": {
+        "vue": "^3.0.0",
+        "xstate": "^4.15.1"
+    }
+}
