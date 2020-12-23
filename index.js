@@ -1,31 +1,23 @@
-import { interpret } from 'xstate'
-import { reactive } from 'vue'
+import { interpret, State } from 'xstate'
+import { shallowRef } from 'vue'
 
-class VueXstate {
-    constructor (machine) {
-        /**
-         * Vue obsevable containing xstate's current
-         * "state value" and
-         * Xstate context
-         */
-        this.state = reactive({
-            value: null,
-            context: {}
-        })
+export function useMachine ({ machine, config, context = {}, rehydratedState }) {
+    const createdMachine = config ? machine.withConfig(config, {
+        ...machine.context,
+        ...context
+    }) : machine
 
-        /**
-         * instance of the Xstate service
-         */
-        this.service = machine
-            ? interpret(machine).onTransition(state => {
-                this.state.value = state.value
-                this.state.context = state.context
-            })
-            : {
-                start () {},
-                onTransition () {}
-            }
-    }
+    const service = interpret(createdMachine).start(
+        rehydratedState ? State.create(rehydratedState) : undefined
+    )
+
+    const state = shallowRef(service.state)
+
+    service.onTransition((currentState) => {
+        if (currentState.changed) state.value = currentState
+    })
+
+    state.value = service.state
+
+    return { state, send: service.send, service }
 }
-
-export default useMachine = new VueXstate
