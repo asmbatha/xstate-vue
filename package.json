@@ -1,6 +1,6 @@
 {
     "name": "xstate-vue",
-    "version": "1.0.0",
+    "version": "1.0.1",
     "description": "Simple xstate and vue3 integration",
     "main": "index.js",
     "scripts": {
